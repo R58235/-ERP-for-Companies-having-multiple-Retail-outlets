@@ -1,0 +1,22 @@
+<h1>{{shop.name}}</h1>
+<h1>Select Account for New Invoice</h1>
+<form action={% url 'shop:selectAccount' shop.id %} method="post">
+  {% csrf_token %}
+  <div>
+    <input type="search" id="account" name="account" 
+    placeholder="Search Account...."
+    required
+    maxlength=10
+    minlength=10>
+    <button>Search</button>
+  </div>
+</form>
+{% if error_message%}
+<p><strong>{{ error_message }}</strong></p>
+<form action={% url 'shop:createNewAccount' %} >
+  {% csrf_token %}
+  <div>
+    <input type="submit" value="Create New Account">
+  </div>
+</form>
+{%endif%}

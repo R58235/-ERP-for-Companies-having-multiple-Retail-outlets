@@ -1,0 +1,22 @@
+<style>
+    input:invalid {
+        border: 2px solid red;
+      }
+      
+      input:valid {
+        border: 2px solid black;
+      }
+</style>
+<h1>Add Payment Details for Invoice No: {{shop.shop_code}}/{{invoice.invoice_no}}</h1>
+<form action={% url 'shop:addPayment' shop.id account.id invoice.id%} method="post">
+    {% csrf_token %}
+    <label for="paymentMethod">Choose Payment Method:</label>
+    <select name="paymentMethod" id="paymentMethod" required>
+        {%for paymentMethod in paymentMethod_list %}
+        <option value={{paymentMethod.id}}>{{paymentMethod.paymentMethod}}</option>
+        {%endfor%}
+    </select>
+    <label for="amount">Amount:</label>
+    <input type="number" id="amount" name="amount" min="0" max="1000000" required>
+    <input type="submit" value="Add">
+  </form>

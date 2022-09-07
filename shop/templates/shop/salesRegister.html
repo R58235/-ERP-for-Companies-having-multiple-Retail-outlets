@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            table, th, td {
+              border: 1px solid black;
+              border-style: solid;
+            }
+        </style>
+    </head>
+<body>
+    <form action={% url 'shop:dashboard' shop.id%}>
+        {%csrf_token%}
+        <input type="submit" value="Go to Dashboard"/>
+    </form>
+<h1>Shop Name: {{shop.name}}</h1>
+<h2>Total Invoices issued:</h2>
+<table style="width:100%">
+    <tr>
+      <th>Sl.no</th>
+      <th>Date</th>
+      <th>Invoice No</th>
+      <th>Account Name</th>
+      <th>Total Amount</th>
+      <th>Due</th>
+      <th>Print</th>
+      <th>Cancelled</th>
+    </tr>
+    {% for invoice in invoice_list %}
+    <tr>
+        <td>{{forloop.counter}}</td>
+        <td>{{invoice.date_time_created}}</td>
+        <td><a href="{% url 'shop:viewInvoice' invoice.id %}">{{ invoice.invoice_no }}</a></td>
+        <td>{{invoice.account.name}}</td>
+        <td>{{invoice.total_amount}}</td>
+        <td>{{invoice.due}}</td>
+        <td>
+            <form action={% url 'shop:printInvoice' invoice.id%} method='POST'>
+                {% csrf_token %}
+                <input type="submit" value="Print" />
+            </form>
+        </td>
+        <td>{%if invoice.is_cancelled%}
+            <font color="red">Cancelled</font>
+            {%else%}
+            <form action={% url 'shop:editInvoice' invoice.id%} method='POST'>
+                {% csrf_token %}
+                <input type="submit" value="Cancel" />
+            </form>
+            {%endif%}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+</body>
+</html> 

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>
+<body>
+
+<h1>Select Shop or Create New</h1>
+<form action={% url 'shop:createNewShop' %}>
+    <input type="submit" value="Create New Shop" />
+</form>
+{% if shop_list %}
+    {% for shop in shop_list %}
+        <form action={% url 'shop:dashboard' shop.id %}>
+            <input type="submit" value={{shop.shop_code}}>
+        </form>
+    {% endfor %}
+{% else %}
+    <p>No Shop are available.</p>
+{% endif %}
+{% if message %}
+<p><strong>{{ message }}</strong></p>{% endif %}
+</body>
+</html> 

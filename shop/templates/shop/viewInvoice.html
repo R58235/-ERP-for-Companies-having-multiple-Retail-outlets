@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            table, th, td {
+              border: 1px solid black;
+              border-style: solid;
+            }
+        </style>
+    </head>
+<body>
+
+<h1>Invoice Details</h1>
+<h2> Basic Details:</h2>
+<div>
+    <p>Invoice No: {{shop.shop_code}}/{{invoice.invoice_no}}</p>
+    <p>Shop Name: {{shop.name}}</p>
+    <p>Name: {{account.name}}</p>
+    <p>Address: {{account.address}},{{account.city}},{{account.state}}</p>
+    <p>Phone No: {{account.phone_no}}</p>
+</div>
+<h2>Products Details:</h2>
+<table style="width:100%">
+    <tr>
+      <th>Sl.no</th>
+      <th>Product Name</th>
+      <th>Description</th>
+      <th>Hsn Code</th>
+      <th>Quantity</th>
+      <th>Price</th>
+    </tr>
+    {% for product in product_list %}
+    <tr>
+        <td>{{forloop.counter}}</td>
+        <td>{{product.name}}</td>
+        <td>{{product.description}}</td>
+        <td>{{product.hsn.code}}</td>
+        <td>{{product.qty}}</td>
+        <td>{{product.price}}</td>
+    </tr>
+    {% endfor %}
+</table>
+<h2>Payment Details:</h2>
+<table style="width:100%">
+    <tr>
+      <th>Sl.no</th>
+      <th>Product Method</th>
+      <th>Amount</th>
+      <th>Date</th>
+    </tr>
+    {% for payment in payment_list %}
+    <tr>
+        <td>{{forloop.counter}}</td>
+        <td>{{payment.paymentMethod.paymentMethod}}</td>
+        <td>{{payment.amount}}</td>
+        <td>{{payment.date_time_created.date}}</td>
+    </tr>
+    {% endfor %}
+</table>
+<form action={% url 'shop:addPayment' shop.id account.id invoice.id%}>
+    {% csrf_token%}
+    <input type="submit" value="Add Payment" />
+</form>
+
+<h2>Finance Details:</h1>
+    <div>
+        <p>Finance Company: {{invoice.finance.name}}</p>
+        <p>EMI: {{invoice.emi}}</p>
+        <p>Down-Payment: {{invoice.downpayment}}</p>
+        <p>Disbursement: {{invoice.financeDisbursement}}</p>
+    </div>
+<h2>Remark:</h2>
+<p>Remark: {{invoice.remark}}</p>
+
+<form action={% url 'shop:printInvoice' invoice.id%} method='POST'>
+    {% csrf_token %}
+    <input type="submit" value="Print" />
+</form>
+
+<form action={% url 'shop:salesRegister' shop.id%}>
+    {%csrf_token%}
+    <input type="submit" value="Go to Register"/>
+</form>
+</body>
+</html> 

@@ -1,0 +1,35 @@
+<h1>Select an Option for {{shop.name}}</h1>
+<div>
+<form action={% url 'shop:selectAccount' shop.id %}>
+    <input type="submit" value="Create New Invoice" />
+</form>
+<form action={% url 'shop:createNewAccount' %}>
+    <input type="submit" value="Create New Account" />
+</form>
+<form action={% url 'shop:salesRegister' shop.id%}>
+    <input type="submit" value="Sales Register" />
+</form>
+</div>
+<div>
+<form action={% url 'shop:dashboard' shop.id %} method="post">
+    {% csrf_token %}
+    <div>
+        <p>Input Phone No To view Ledger</p>
+      <input type="search" id="account" name="account" 
+      placeholder="Search Account...."
+      required
+      maxlength=10
+      minlength=10>
+      <button>Go to Account Ledger</button>
+    </div>
+  </form>
+</div>
+{% if error_message%}
+<p><strong>{{ error_message }}</strong></p>
+<form action={% url 'shop:createNewAccount' %} >
+  {% csrf_token %}
+  <div>
+    <input type="submit" value="Create New Account">
+  </div>
+</form>
+{%endif%}

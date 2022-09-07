@@ -1,0 +1,21 @@
+<style>
+    input:invalid {
+        border: 2px solid red;
+      }
+      
+      input:valid {
+        border: 2px solid black;
+      }
+</style>
+<h1>Add Details For new Account</h1>
+<form action={% url 'shop:createNewAccount' %} method="post">
+    {% csrf_token %}
+    {{form.as_div}}
+    <input type="submit" value="Add Account">
+</form>
+<form action={% url 'shop:index' %} method="GET">
+  {% csrf_token %}
+  <input type="submit" value="Back">
+</form>
+  {% if message %}
+  <p><strong>{{ message }}</strong></p>{% endif %}

@@ -1,0 +1,21 @@
+<style>
+    input:invalid {
+        border: 2px solid red;
+      }
+      
+      input:valid {
+        border: 2px solid black;
+      }
+</style>
+<h1>Add Product Details</h1>
+<form action={% url 'shop:addProducts' shop.id account.id invoice.id%} method="post">
+    {% csrf_token %}
+    <label for="hsn">Choose Product Category:</label>
+    <select name="hsn" id="hsn">
+        {%for hsn in hsn_list %}
+        <option value={{hsn.id}}>{{hsn.description}}</option>
+        {%endfor%}
+    </select>
+    {{form.as_div}}
+    <input type="submit" value="Add">
+  </form>
